@@ -1,0 +1,247 @@
+\documentclass[]{politex}
+% ========== Opções ==========
+% pnumromarab - Numeração de páginas usando algarismos romanos na parte pré-textual e arábicos na parte textual
+% abnttoc - Forçar paginação no sumário conforme ABNT (inclui "p." na frente das páginas)
+% normalnum - Numeração contínua de figuras e tabelas 
+%	(caso contrário, a numeração é reiniciada a cada capítulo)
+% draftprint - Ajusta as margens para impressão de rascunhos
+%	(reduz a margem interna)
+% twosideprint - Ajusta as margens para impressão frente e verso
+% capsec - Forçar letras maiúsculas no título das seções
+% espacosimples - Documento usando espaçamento simples
+% espacoduplo - Documento usando espaçamento duplo
+%	(o padrão é usar espaçamento 1.5)
+% times - Tenta usar a fonte Times New Roman para o corpo do texto
+% noindentfirst - Não indenta o primeiro parágrafo dos capítulos/seções
+
+
+% ========== Packages ==========
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amsthm,amsfonts,amssymb}
+\usepackage{graphicx,cite,enumerate}
+\usepackage{verbatim} 
+
+
+% ========== Language options ==========
+\usepackage[brazil]{babel}
+%\usepackage[english]{babel}
+
+
+% ========== ABNT (requer ABNTeX 2) ==========
+%	http://www.ctan.org/tex-archive/macros/latex/contrib/abntex2
+%\usepackage[num]{abntex2cite}
+
+% Forçar o abntex2 a usar [ ] nas referências ao invés de ( )
+%\citebrackets{[}{]}
+
+
+% ========== Lorem ipsum ==========
+\usepackage{blindtext}
+
+
+
+% ========== Opções do documento ==========
+% Título
+\titulo{Warehouse Managment System}
+
+% Autor
+%\autor{Nome Sobrenome}
+
+% Para múltiplos autores (TCC)
+\autor{Marco Enrique dos Santos Abensur\\%
+		Daniel Nery Silva de Oliveira}
+
+% Orientador / Coorientador
+\orientador{Gustavo Rehder Pamplona}
+\coorientador{Carlos Eduardo Cugnasca}
+
+% Tipo de documento
+\tcc{Eletricista com ênfase em Sistemas Eletrônicos}
+%\dissertacao{Engenharia Elétrica}
+%\teseDOC{Engenharia Elétrica}
+%\teseLD
+%\memorialLD
+
+% Departamento e área de concentração
+\departamento{PSI - Departamento de Engenharia de Sistemas Eletrônicos}
+\areaConcentracao{Área de concentração}
+
+% Local
+\local{São Paulo}
+
+% Ano
+\data{2019}
+
+
+
+
+\begin{document}
+% ========== Capa e folhas de rosto ==========
+\capa
+%\falsafolhaderosto
+\folhaderosto
+
+
+% ========== Folha de assinaturas (opcional) ==========
+%\begin{folhadeaprovacao}
+%	\assinatura{Prof.\ X}
+%	\assinatura{Prof.\ Y}
+%	\assinatura{Prof.\ Z}
+%\end{folhadeaprovacao}
+
+
+% ========== Ficha catalográfica ==========
+% Fazer solicitação no site:
+%	http://www.poli.usp.br/en/bibliotecas/servicos/catalogacao-na-publicacao.html
+
+
+% ========== Dedicatória (opcional) ==========
+%\dedicatoria{Dedicatória}
+
+
+% ========== Agradecimentos ==========
+%\begin{agradecimentos}
+
+%Thanks...
+
+%\end{agradecimentos}
+
+
+% ========== Epígrafe (opcional) ==========
+%\epigrafe{%
+%	\emph{``Epígrafe''}
+%	\begin{flushright}
+%		-{}- Autor
+%	\end{flushright}
+%}
+
+
+% ========== Resumo ==========
+\begin{resumo}
+O estudo de técnicas de localização indoor e outdoor tem crescido muito nos últimos anos. Com a informação da localização de algum ativo em um ambiente controlado, processos podem ser simplificados e dados valiosos podem ser obtidos para os mais variados usos, desde a localização de algum aparelho médico em um hospital, até o de mercadorias em um armazém que é o foco do presente trabalho. Sabendo-se localização de todos os ativos em um armazém, pode-se fazer um uso inteligente desses dados, de forma a otimizar espaço e tempo, o que é essencial para companhias do ramo. 
+O trabalho será feito em um armazém da \textit{Samsung SDS Cello Logistics} onde as localizações para armazenamento de produtos não são fixas e nem delimitadas. Para solucionar o problema, levando-se em conta custos, eficiência energética e precisão, o uso do Bluetooth low energy 5 (BLE) se mostra como a atual solução mais adequada quando em comparação com outras tecnologias, permitindo precisões de menos de 2m a baixos custos.
+%
+\\[3\baselineskip]
+%
+\textbf{Palavras-Chave} -- Indoor Location, Bluetooth Low Energy, Warehouse Managment System.
+\end{resumo}
+
+
+% ========== Abstract ==========
+\begin{abstract}
+The study of indoor and outdoor localization techniques has grown a lot in recent years. With information about the location of an asset in a controlled environment, processes can be simplified and valuable data can be obtained for a variety of uses, from tracking medical devices in a hospital, to tracking assets in warehouses, which is the focus of this work. With location data of all assets in a warehouse, it is possible to optimize space and time, which is essential for companies in this field.
+The work will be done in a warehouse of \textit{Samsung SDS Cello Logistics} where the locations for assets storage are neither fixed nor bounded. In order to solve the problem, taking into account costs, energy efficiency and precision, the use of Bluetooth low energy 5 (BLE) is shown as the most adequate solution when compared to other technologies, allowing for precision of less than 2m and low costs.
+%
+\\[3\baselineskip]
+%
+\textbf{Keywords} -- Indoor Location, Bluetooth Low Energy, Warehouse Managment System.
+\end{abstract}
+
+
+% ========== Listas (opcional) ==========
+%\listadefiguras
+%\listadetabelas
+
+% ========== Listas definidas pelo usuário (opcional) ==========
+%\begin{pretextualsection}{Lista de símbolos}
+
+%Lista de símbolos...
+
+%\end{pretextualsection}
+
+% ========== Sumário ==========
+\sumario
+
+
+% ========== Elementos textuais ==========
+
+\part{Introdução}
+A função primaria de um armazém é receber mercadorias de uma fonte, guardar até ser requerido, e enviar para o usuário apropriado quando exigido [1]. É uma parte fundamental da cadeia de suprimentos de qualquer rede de mercadorias.
+
+Nos últimos anos, os armazéns vêm cada vez mais enfrentando maiores demandas por custo e produtividade. Estão se tornando uma parte vital para muitas empresas, porém sua complexidade também está aumentando. Consequentemente, o planejamento e controle dos processos de um armazém, também conhecido como \textit{warehouse management}, tem se tornado uma tarefa desafiadora [2].
+
+Nesse contexto, diversas soluções estão sendo buscadas para abaixar os custos, aumentar a produtividade, e melhorar o planejamento dos processos.
+Um ponto de melhoria, é a localização de ativos em um armazém. Com dados precisos da localização de todos os ativos em tempo real é possível utilizar algoritmos que visam melhorar a eficiência do armazém.
+Os ambientes de armazém, podem ser os mais variados, desde armazéns indoor em ambientes mais controlados, até armazéns outdoor em que espaços são compartilhados entre várias empresas.
+
+Para a realização da localização de produtos em um local indoor e outdoor, diversas tecnologias, técnicas e algoritmos podem ser utilizados, cada um com seus aspectos positivos e negativos, e a escolha de um em detrimento de outro pode levar em conta diversos aspectos. As principais tecnologias utilizadas para a localização são: infravermelho (IR), ultra-som, som audível, sensores magnéticos, sensores óptico, radiofrequência (RF) e luz visível. As tecnologias de RF incluem Bluetooth, banda ultralarga (UWB), wireless sensor network (WSN), rede Local sem fio (WLAN), identificação por radiofrequência (RFID), Near Field Communication (NFC), WiFi, entre outros.
+Ja as técnicas de estimativa de localização incluem: Angle of Arrival (AOA), Time of Arrival (TOA), Time Difference of Arrival (TDOA) and Received Signal Strength Indication (RSSI).  [3][4]
+
+Essa pesquisa é motivada pela \textit{Samsung SDS Cello Logistics} para a localização de seus ativos em um armazém localizado no Porto de Tubarões no Espirito Santo. Dada a conjuntura do espaço físico de tal porto, somado com os baixos consumos energéticos do Bluetooth, seus baixos custos, e sua alta portabilidade e facilidade de desenvolvimento, tal tecnologia foi escolhida para o desenvolvimento do trabalho, como será demonstrado nas próximas partes.
+
+\chapter{Necessidade}
+À medida que mais empresas buscam cortar custos e melhorar a produtividade dentro de seus armazéns e centros de distribuição, a etapa de coleta tem se tornado um caso de estudo cada vez mais detalhado. \textit{Order Picking} (Coleta de pedidos) - o processo de coleta de produtos do estoque em resposta ao pedido de um cliente - é a operação mais trabalhosa em armazéns com sistemas manuais e uma operação muito intensiva em armazéns em sistemas automatizados. Por essas razões, os profissionais de armazenamento consideram a Coleta de pedidos como a área de prioridade máxima para melhorias de produtividade. [5]
+Nesse contexto de busca de melhorias para a coleta e consequente aumento de produtividade, se encaixam as necessidades do estudo em questão de criar métodos melhores de localização de produtos em um armazém, de forma a otimizar a coleta e estoque de produtos.
+
+No sistema atual, de estoque e coleta do espaço da Samsung, códigos de barra em localidades fixas, são utilizados para a demarcação da localização em que um produto foi estocado. Entretanto, tal método não está se mostrando efetivo em um porto outdoor, com espaços para armazenamento que podem mudar a cada chegada de um novo contêiner e que estão sujeitos à adversidades climáticas. Tal situação, a fim de manter padrões elevados de produtividade exigiu a busca de novas soluções para a localização de produtos.
+
+\chapter{Problema}
+\chapter{Árvore de Objetivos}
+
+\part{Estado da Arte}
+
+\part{Bibliografia}
+[1] Tompkins, J.A. and Smith, J.D. (1998), The Warehouse Management Handbook,
+Tompkins Press, Raleigh, North Carolina
+
+[2] Structuring Warehouse
+Management - NYNKE FABER - introdução
+
+[3] A state-of-the-art survey of indoor
+positioning and navigation systems and
+technologies
+
+[4] A Survey of Indoor Localization Systems and
+Technologies
+
+[4] R. De Koster, T. Le-Duc, and K. J. Roodbergen, "Design and control
+of warehouse order picking: A literature review," 
+
+
+%parte comentada, para usar ocmo referencia na criação de capitulos e partes
+\begin{comment}
+
+\part{Introdução}
+	
+\chapter{Capítulo com epígrafe}
+\capepigrafe[0.5\textwidth]{``Frase espirituosa de um autor famoso''}{Autor famoso}
+
+\blindtext
+
+\begin{citacaoLonga}
+	\blindtext
+\end{citacaoLonga}
+
+\blindtext
+
+
+
+\blinddocument
+
+
+% ========== Referências ==========
+% --- IEEE ---
+%	http://www.ctan.org/tex-archive/macros/latex/contrib/IEEEtran
+%\bibliographystyle{IEEEbib}
+
+% --- ABNT (requer ABNTeX 2) ---
+%	http://www.ctan.org/tex-archive/macros/latex/contrib/abntex2
+%\bibliographystyle{abntex2-num}
+
+%\bibliography{}
+
+
+% ========== Apêndices (opcional) ==========
+\apendice
+\chapter{}
+\chapter{Beta}
+
+
+% ========== Anexos (opcional) ==========
+\anexo
+\chapter{Alpha}
+\chapter{}
+
+\end{comment}
+
+\end{document}
