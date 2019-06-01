@@ -42,7 +42,7 @@
 
 % ========== Opções do documento ==========
 % Título
-\titulo{Warehouse Managment System}
+\titulo{Warehouse Managment System Posicional}
 
 % Autor
 %\autor{Nome Sobrenome}
@@ -170,12 +170,21 @@ Ja as técnicas de estimativa de localização incluem: Angle of Arrival (AOA), 
 Essa pesquisa é motivada pela \textit{Samsung SDS Cello Logistics} para a localização de seus ativos em um armazém localizado no Porto de Tubarões no Espirito Santo. Dada a conjuntura do espaço físico de tal porto, somado com os baixos consumos energéticos do Bluetooth, seus baixos custos, e sua alta portabilidade e facilidade de desenvolvimento, tal tecnologia foi escolhida para o desenvolvimento do trabalho, como será demonstrado nas próximas partes.
 
 \chapter{Necessidade}
-À medida que mais empresas buscam cortar custos e melhorar a produtividade dentro de seus armazéns e centros de distribuição, a etapa de coleta tem se tornado um caso de estudo cada vez mais detalhado. \textit{Order Picking} (Coleta de pedidos) - o processo de coleta de produtos do estoque em resposta ao pedido de um cliente - é a operação mais trabalhosa em armazéns com sistemas manuais e uma operação muito intensiva em armazéns em sistemas automatizados. Por essas razões, os profissionais de armazenamento consideram a Coleta de pedidos como a área de prioridade máxima para melhorias de produtividade [5].
+À medida que mais empresas buscam cortar custos e melhorar a produtividade dentro de seus armazéns e centros de distribuição, a etapa de coleta tem se tornado um caso de estudo cada vez mais detalhado. \textit{Order Picking} (Coleta de pedidos) - o processo de coleta de produtos do estoque em resposta ao pedido de um cliente - é a operação mais trabalhosa em armazéns com sistemas manuais e uma operação muito intensiva em armazéns com sistemas automatizados. Por essas razões, os profissionais de armazenamento consideram a coleta de pedidos como a área de prioridade máxima para melhorias de produtividade [5].
 Nesse contexto de busca de melhorias para a coleta e consequente aumento de produtividade, se encaixam as necessidades do estudo em questão de criar métodos melhores de localização de produtos em um armazém, de forma a otimizar a coleta e estoque de produtos.
 
 No sistema atual, de estoque e coleta do espaço da Samsung, códigos de barra em localidades fixas, são utilizados para a demarcação da localização em que um produto foi estocado. Entretanto, tal método não está se mostrando efetivo em um porto outdoor, com espaços para armazenamento que podem mudar a cada chegada de um novo contêiner e que estão sujeitos à adversidades climáticas. Tal situação exigiu a busca de novas soluções para a localização de produtos a fim de manter padrões elevados de produtividade.
 
 \chapter{Problema}
+O problema consiste em implementar soluções para a localização de ativos em um espaço físico de um armazém.
+O problema de localização outdoor para espaços sem muitos obstáculos, já tem como padrão a tecnologia de GPS, entretanto, quando se trata de espaços outdoor com muitos obstáculos ou espaços indoor, diversas tecnologias são levantadas com aspectos positivos e negativos [6], porém a escolha de uma em relação a outra depende do problema em questão
+
+Os principais parâmetros para um sistema ideal de localização, incluem o sistema estar disponivel atualmente em dispositivos de usuários, ser econômico, ser energeticamente eficiente, possuir uma ampla faixa de recepção, alta precisão de localização, baixa latência e alta escalabilidade [4].
+
+O problema é que cada tecnologia em conjunto com a aplicação a que se destina pode não apresentar uma ou mais das caracteristicas ideais desejáveis. Assim, nesse trabalho, será encontrado a solução que melhor se adeque aos parâmetros de um sistema de localização ideal para o armazém especifico da Sansung em que o trabalho será feito.
+
+Além disso, o sistema proposto deverá ser facilmente integrável com o sistema atual de WMS em uso no armazém em questão, de forma a minimizar mudanças na infraestrutura do armazém. Grandes mudanças implicam em custos adicionais, o que é um grande problema em termos comerciais.
+
 \chapter{Árvore de Objetivos}
 
 \part{Estado da Arte}
@@ -193,9 +202,17 @@ technologies
 
 [4] A Survey of Indoor Localization Systems and
 Technologies
+Faheem Zafari, Student Member, IEEE, Athanasios Gkelias, Senior Member, IEEE,
+Kin K. Leung, Fellow, IEEE
 
-[4] R. De Koster, T. Le-Duc, and K. J. Roodbergen, "Design and control
+[5] R. De Koster, T. Le-Duc, and K. J. Roodbergen, "Design and control
 of warehouse order picking: A literature review," 
+
+[6] Selection of Technology for Building an Indoor
+Localization and Tracking System
+Volodymyr Rustinov1
+, Anton Sorokin2 
+
 
 
 %parte comentada, para usar ocmo referencia na criação de capitulos e partes
