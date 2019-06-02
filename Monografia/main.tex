@@ -1,0 +1,51 @@
+\documentclass[12pt,openright,oneside,a4paper,brazilian]{abntex2}
+\selectlanguage{brazil}
+
+\usepackage{capa-epusp-abntex2}
+
+\usepackage[num]{abntex2cite}
+\usepackage[utf8]{inputenc}
+
+\usepackage{blindtext}
+
+\title{Warehouse Managment System Posicional}
+
+\author{Marco Enrique dos Santos Abensur\\
+		Daniel Nery Silva de Oliveira}
+
+\areaconcentracao{Engenharia Elétrica}
+
+\orientador{Gustavo Rehder Pamplona}
+\coorientador{Carlos Eduardo Cugnasca}
+
+\preambulo{Trabalho apresentado à Escola Politécnica da Universidade de São Paulo para obtenção do Título de Engenheiro Eletricista.}
+
+\date{São Paulo\\2019}
+\pagenumbering{arabic}
+
+
+\begin{document}
+
+\imprimircapa
+\imprimirfalsafolhaderosto
+\imprimirfolhaderosto
+
+\include{resumo}
+
+% \listoffigures
+% \newpage
+% \listoftables
+% \newpage
+
+\tableofcontents
+
+\include{introducao}
+\include{necessidade}
+\include{problema}
+\include{arvoreobjetivos}
+\include{estadodaarte}
+
+\bibliographystyle{abntex2-num}
+\bibliography{bibliografia}
+
+\end{document}
