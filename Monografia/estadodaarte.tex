@@ -1,4 +1,4 @@
-\chapter{Estado da Arte}
+\chapter{Aspectos Conceituais}
 Esta parte se focará nas mais modernas tecnologias e técnicas para a realização da localização de ativos em um ambiente. Em primeiro lugar é importante fazer uma diferenciação entre a localização de ativos em ambientes outdoor e indoor.
 
 A localização indoor é o termo dado para a localização em ambientes com muitos obstáculos, paredes e teto. Em contraste, o localização outdoor, acontece em ambientes abertos com poucos obstáculo e paredes. Justamente, por introduzir obstáculos, a localização indoor apresenta mais desafios em relação à outdoor. O ambiente em que o trabalho será feito, é um porto a céu aberto, entretanto diversos obstáculos e paredes fazem parte desse ambiente, fazendo do problema mais similar com problemas de localização indoor. geralmente, soluções de localização indoor precisam tomar mais cuidado com precisão, economia de energia, alcance limitado e interferências. Aspectos os quais serão necessários no problema em questão. Tais técnicas, em ambientes sem o obstáculo a mais imposto por um teto, podem alcançar resultados ainda melhores. Desse forma, a partir de agora, o texto se focará mais no estado-da-arte de tecnologias e técnicas desenvolvidas para ambientes indoor que serão as necessárias para esse trabalho.
@@ -16,7 +16,7 @@ Existe uma variedade de técnicas e algoritmos para obter informações a partir
 
 \subsection{Angle of Arrival}
 
-Angle of Arrival (AoA), ou em português, angulo de chegada é o angulo em que o sinal transmitido chega ao receptor. Abordagens baseadas no AoA, usam matrizes de antenas e exploram a diferença de fase das ondas recebidas em cada elemento dessa matriz. E com tal informação é possível estimar o AoA. Na figura \ref{fig:angle_of_arrival} mostra-se uma representação gráfica do processo.
+Angle of Arrival (AoA), ou em português, ângulo de chegada é o angulo em que o sinal transmitido chega ao receptor. Abordagens baseadas no AoA, usam matrizes de antenas e exploram a diferença de fase das ondas recebidas em cada elemento dessa matriz. E com tal informação é possível estimar o AoA. Na figura \ref{fig:angle_of_arrival} mostra-se uma representação gráfica do processo.
 
 Essa abordagem para estimativa do ângulo de chegada do sinal, geralmente envolve um hardware mais sofisticado quando em comparação com outras propriedades do sinal. Entretanto, com a informação do ângulo de chegada, algoritmos conseguem estimar uma localização com muito mais precisão.\cite{art2}
 
@@ -45,6 +45,8 @@ Usando um modelo simples de propagação de perda de trajetória, a distância d
 RSSI = -10n\log_{10} (d) + A 
 \end{equation}
 
+Em que n é o expoente de perda do ambiente (que varia de 2 em um espaço aberto a 4 em ambientes indoor) e A é o valor do RSSI em uma distancia de referencia do receptor
+
 Entretanto, em ambientes indoor a medição do RSSI e o posicionamento podem ter suas precisões bem reduzidas. \cite{art1}
 
 \subsection{Resumo}
@@ -59,8 +61,52 @@ Pode se contruir uma tabela indicando os principais aspectos dos métodos citado
 
 \section{Algoritmos}
 
-Os principais algoritmos para localização atualmente são os de triangulação, trilateração, proximidade e o de \textit{scene analysis/fingerprinting}. Mais detalhes serão dados posteriormente no trabalho, mas um resumo de cada ponto pode ser visto na tabela abaixo:
+Algoritmos posicionais especificam como calcular a posição de um objeto alvo. Eles traduzem as propriedades dos sinais obtidos em distâncias e ângulos. Os principais algoritmos para localização atualmente são os de triangulação, trilateração, proximidade e o de \textit{scene analysis/fingerprinting}.
 
+\subsection{Triangulação}
+
+\subsection{Trilateração}
+A trilateração é um algoritmo para estimar a localização de posições desconhecidas baseado nas distâncias relativas para pontos conhecidos.
+Nesse método o RSSI é utilizado para estimar a distância para pontos conhecidos [12]
+
+O processo pode ser exemplificado na imagem \ref{fig:trilateration.png}  em que as posições A, B e C são conhecidas e a D é desconhecida. 
+\begin{figure}[H]
+	\centering 
+	\includegraphics[scale = 1]{images/trilateration.png}
+	\caption{Trilateração \cite{art1}}
+	\label{fig:trilateration.png}
+\end{figure}
+
+
+As coordenadas podem ser denominadas de \( (x_n, y_n) \) em que n pode ser A, B, C ou D dependendo do ponto em questão. Dessa forma tem-se as seguintes equações:
+
+\begin{equation*}
+\begin{cases} \sqrt{(x - x_a)^2 + (y - y_a)^2} = d_a \\ \sqrt{(x - x_b)^2 + (y - y_b)^2} = d_b \\ \sqrt{(x - x_c)^2 + (y - y_c)^2} = d_c \end{cases}
+\end{equation*}
+
+Resolvendo-se a equação, obtém-se:
+
+\begin{equation*}
+\begin{bmatrix} 
+	x \\
+	y
+\end{bmatrix} = 
+\begin{bmatrix} 
+	2(x_a - x_c) & 2(y_a - y_c) \\
+	2(x_b - x_c) & 2(y_b - y_c)
+\end{bmatrix}^{-1}
+\begin{bmatrix} 
+	x_a^2 - x_c^2 + y_a^2 - y_c^2 + d_c^2 - d_a^2 \\
+	x_a^2 - x_c^2 + y_b^2 - y_c^2 + d_c^2 - d_b^2
+\end{bmatrix}
+\end{equation*}
+
+
+\subsection{Proximidade}
+\subsection{\textit{Scene analysis/fingerprinting}}
+\subsection{Resumo}
+
+Uma tabela pode ser construida comparando os principais pontos positivos e negativos de cada um desses algoritmos.
 \begin{figure}[H]
 	\centering 
 	\includegraphics[scale = 1]{images/algorithms_table.png}
@@ -76,7 +122,7 @@ Wifi opera na banda ISM (Industrial, Scientific and Medical) utilizando principa
 
 Alguns trabalhos foram feitos demostrando as capacidades de localização com WiFi a exemplo de \cite{art7}
 
-\subsection{Bluetooh}
+\subsection{Bluetooth}
 Bluetooth é um padrão de tecnologia sem fio para trocar informação entre dispositivos móveis e fixos a curtas distancias. Usa ondas de radio na banda ISM de 2.4 a 2.485GHz. Bluetooth Special Interest Group (SIG) é a organização responsável pelos padrões da tecnologia.
 
 A ultima especificação do bluetooth, conhecida como Bluetooh 5.1 foi lançado em Janeiro de 2019, permite alcances de até 350m, velocidades de 2Mbit/s e possui baixo consumo energético \cite{art8}.
@@ -98,7 +144,7 @@ Além disso, devido aos pulsos de baixa duração (< 1ns) permitem métodos prec
 Entretanto, o progresso lento do padrão de UWB tem limitado a adoção em larga escala da tecnologia.
 
 
-\subsection{Sinais sonoros e ultrassonicos}
+\subsection{Sinais sonoros e ultrassônicos}
 
 Utiliza-se sinais acústicos para a localização, de forma similar as tecnologias de radio-frequência.
 A principal técnica utilizada é a de ToF, como as ondas de som se propagam a velocidades menores que as eletromagnéticas, tal método apresenta menores desafios em sua implementação. A precisão pode chegar na ordem de centímetros \cite{art11}.
