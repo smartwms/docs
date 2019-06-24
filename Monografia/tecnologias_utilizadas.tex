@@ -31,7 +31,7 @@ Quando um chip de Bluetooth recebe o sinal ele é capaz de retornar o valor da i
 Já para estimar o ângulo, será utilizado o AoA. Tal propriedade em conjunto com a de intensidade do sinal permite que algoritmos estimem uma localização com uma precisão muito maior quando em comparação a algoritmos que utilizam apenas a intensidade do sinal. Assim, apesar de necessitar de um hardware mais complexo, o ganho é alto.
 
 Nas especificações do Bluetooth anteriores à 5.1 lançada em janeiro de 2019, a obtenção do AoA exigia um hardware extra.
-Entretanto, dados os recentes avanços na tecnologia agora é possivel estimar o ângulo de chegada de um sinal se o chip Bluetooth utilizada possuir suporte para Bluetooth 5.1 ou superior.
+Entretanto, dados os recentes avanços na tecnologia agora é possivel estimar o ângulo de chegada de um sinal se o chip Bluetooth utilizado possuir suporte para Bluetooth 5.1 ou superior.
 
 Uma alternativa para estimar o AoA para especificações anteriores à 5.1 é a utilização de um interferômetro de 6-portas, que é um dispositivo que é baseado nas superposições deslocadas de fase das ondas incidentes e refletidas em uma porta. Diferentes defasagens de fase resultam em diferentes potências nas portas de saída da arquitetura de um 6-portas \cite{art14}.
 
@@ -40,7 +40,7 @@ Abaixo um desenho esquemático da arquitetura de um 6-portas:
 \begin{figure}[H]
 	\centering 
 	\includegraphics[scale = 1]{images/six_port_schematic.png}
-	\caption{Esquemático de uma arquitetura 6-portas. Tirado de \cite{art14} }
+	\caption{Esquemático de uma arquitetura 6-portas. Tirado de \cite{art15} }
 	\label{fig:six_port_schematic}
 \end{figure}
 
@@ -223,7 +223,7 @@ Os resultados obtidos a partir disso foram:
    \end{tabular}
    \end{center}
 
-   Da tabela, observa-se que mesmo no caso 2D os erros absoluto continuam na faixa de 1m a 10m utilizando-se somente o RSSI.
+   Da tabela, observa-se que mesmo no caso 2D os erros absolutos continuam na faixa de 1m a 10m utilizando-se somente o RSSI.
 
 
 
