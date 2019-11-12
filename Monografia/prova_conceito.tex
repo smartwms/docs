@@ -92,7 +92,8 @@ Em que \(a\) é a distância para a placa na posição (0,0) e \(b\) a distânci
 
 Os resultados obtidos a partir disso foram:
 
-\begin{center}
+\begin{table}[t]
+    \centering
     \begin{tabular}{||c c c c c c c c c||} 
     \hline
     a Real 1 & b Real 2 & a 1 & b 2 & x Calc & y Calc	& x Real & y Real & Erro\\ [0.5ex] 
@@ -139,9 +140,11 @@ Os resultados obtidos a partir disso foram:
     \hline
     8 & 5 & 7.25 & 5.94 & 4.22 & 5.89 & 6.40 & 4.80 & 2.43\\ 
     \hline
-    8 & 7.5 & 7.25 & 6.48 & 3.55 & 6.32 & 3.27 & 7.30 & 1.01\\ [1ex] 
+    8 & 7.5 & 7.25 & 6.48 & 3.55 & 6.32 & 3.27 & 7.30 & 1.01\\ [0.5ex] 
     \hline
    \end{tabular}
-   \end{center}
+   \caption{Resultados Obtidos com RSSI}
+   \label{tab: Resultados Obtidos com RSSI}
+\end{table}
 
    Da tabela, observa-se que mesmo no caso 2D os erros absolutos continuam na faixa de 1m a 10m utilizando-se somente o RSSI.

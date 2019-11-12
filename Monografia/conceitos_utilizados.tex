@@ -64,7 +64,7 @@ Uma vez coletada a informação dos canais separadamente, deve-se tratá-los ade
     \item  Utilizar a média dos calores obtidos em todos os canais. Usando a média dos três canais, eventuais erros em um canal tem seu efeito minimizado:
     
     \begin{equation}
-        RSSI_{avarage} = \frac{1}{3} \sum_{i=37}^{39}  RSSI_{ch i}
+        RSSI_{average} = \frac{1}{3} \sum_{i=37}^{39}  RSSI_{ch i}
     \end{equation}
     
 
@@ -79,7 +79,24 @@ Uma vez coletada a informação dos canais separadamente, deve-se tratá-los ade
 
 \end{itemize}
 
-A partir do valor de RSSI que foi estimado com base no RSSI dos três canais, utilizou-se a triangulação para a determinação da posição de acordo com as equações de \ref{sec:trilateracao}
+A partir do valor de RSSI que foi estimado com base no RSSI dos três canais, utilizou-se a triangulação para a determinação da posição de acordo com as equações de \ref{sec:trilateracao}.
+
+Nas imagens \ref{fig:rssi_channels_raw.png} e \ref{fig:rssi_channels_mrc.png} tiradas de [23], é possível perceber a diferença que a leitura separada dos canais pode fazer. Na imagem \ref{fig:rssi_channels_raw.png}, tem-se a leitura bruta dos valores dos canais para 500 medições, nessa caso há uma alta dispersão dos dados para um mesma distância, demonstrando a necessidade de algum tipo de tratamento dos dados.
+Na imagem \ref{fig:rssi_channels_mrc.png}, utilizou-se o método do MRC descrito acima. Neste caso, há uma flutuação bem menor dos dados, o que é crítico para uma localização precisa.
+
+\begin{figure}[H]
+    \centering 
+    \includegraphics[scale = 1]{images/rssi_channels_raw.png}
+    \caption{Gráfico de dispersão do RSSI medido para diferentes distâncias conhecidas para diferentes canais sem tratamento.  [23] }
+    \label{fig:rssi_channels_raw.png}
+\end{figure}
+
+\begin{figure}[H]
+    \centering 
+    \includegraphics[scale = 1]{images/rssi_channels_mrc.png}
+    \caption{Gráfico de dispersão da média do RSSI calculado por meio do algoritmo MRC [23]}
+    \label{fig:rssi_channels_mrc.png}
+\end{figure}
 
 
 

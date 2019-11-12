@@ -74,7 +74,7 @@ Nesse caso, a propriedade de sinal que está diretamente envolvida é o AoA.
 A trilateração é um algoritmo para estimar a localização de posições desconhecidas baseado nas distâncias relativas para pontos conhecidos \cite{art12}.
 Nesse método alguma propriedade do sinal fornece a distância relativa aos pontos conhecidos.
 
-O processo pode ser exemplificado nas imagens abaixo em que as posições A, B e C são conhecidas e a D é desconhecida. Há 4 casos principais que podem acontecer dependendo das distâncias relativas obtidas:
+O processo pode ser exemplificado nas imagens abaixo em que as posições A, B e C são conhecidas e a D é desconhecida. Há 2 casos principais que podem acontecer dependendo das distâncias relativas obtidas:
 
 \begin{enumerate}
 
@@ -82,8 +82,8 @@ O processo pode ser exemplificado nas imagens abaixo em que as posições A, B e
 	
 	\begin{figure}[H]
 		\centering 
-		\includegraphics[scale = 1]{images/trilateration.png}
-		\caption{Trilateração \cite{art12}}
+		\includegraphics[scale = 0.8]{images/trilateration1.png}
+		\caption{Trilateração - Caso ideal}
 		\label{fig:trilateration.png}
 	\end{figure}
 	
@@ -110,6 +110,25 @@ O processo pode ser exemplificado nas imagens abaixo em que as posições A, B e
 		x_a^2 - x_c^2 + y_b^2 - y_c^2 + d_c^2 - d_b^2
 	\end{bmatrix}
 	\end{equation*}
+
+
+	\item Círculos se interceptam em uma região e não em um único ponto. Neste caso, pode-se achar o centroide do triângulo formado pelas três intercecções denominadas de \( P 1\), \( P 2\) e \( P 3\).  
+	
+	\begin{figure}[H]
+		\centering 
+		\includegraphics[scale = 0.8]{images/trilateration2.png}
+		\caption{Trilateração \cite{art12}}
+		\label{fig:trilateration.png}
+	\end{figure}
+
+	Em que as cordenadas x e y, são dadas por:
+	\begin{equation}
+		x = \frac{P1_x + P2_x + P3_x}{3}
+	\end{equation}
+	\begin{equation}
+		y = \frac{P1_y + P2_y + P3_y}{3}
+	\end{equation}
+
 
 
 \end{enumerate}	
