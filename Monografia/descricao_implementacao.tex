@@ -1,0 +1,46 @@
+\chapter{Descrição da Implementação}
+Neste capítulo, serão dados detalhes de como os conceitos do capitulo anterior foram implementados na prática, da descrição geral do sistema e dos resultados obtidos.
+Nota-se, que os conceitos utilizados descritos, não são dependentes da plataforma e ferramentas especificas utilizadas para a solução encontrada, assim, discussões acerca do uso das ferramentas específicas também serão abordadas, tais como seus pontos positivos e negativos.
+
+
+\section{Arquitetura do sistema}
+\todo{Fazer diagrama do funcionamento}
+O sistema proposto será constituído de diversas partes que integram tanto software, quando hardware e firmware, como visto no diagrama abaixo.
+
+\section{Hardware}
+Após resultados positivos, com a prova de conceito, optou-se por seguir na mesma linha de hardware, utilizando-se microcontroladores da familia nRF5 que possuem bluetooth integrado. Após pesquisas entre hardwares que usavam tal chip e a possibilidade de desenvolvimento de um hardware próprio, chegou-se à conclusão de que, com a finalidade de minimizar erros, a melhor opção seria a busca por hardwares capazes de realizar a tarefa de localização eficientemente. Isto é, dispositivos que possuem um preço acessível, uma alta eficiencia energética e escalabilidade.
+
+Com esses requisitos, um dispositivo que se mostrou como uma boa opção foi o \textit{Dev SmartScanner} e o \textit{DEV SmartTag} da empresa DEV Tecnologia [21], \textit{designhouse} brasileira com foco om IoT. Após uma parceria com a empresa, foi possível obter alguns desses dispositivos, com a finalidade de melhorarias no sistema de localização e integração com a localização em armazéns, característica muito desejada, porém que ainda não havia sido feita com esse dispositivo.
+
+O \textit{DEV SmartTag} consiste em um \textit{beacon} que possui um \textit{hardware} simples, composto por um microcontrolador com bluetooth integrado, uma bateria e um medidor de bateria. Esse dispositivo tem uma única funcionalidade: emitir sinal de bluetooth.
+Esse sinal é 
+
+Outras opções levantadas de \textit{hardware} que possibilitaria o uso especifico para localização indoor de armazéns seriam:
+bla bla bla bla
+
+\todo{Soluções Comerciais}
+
+Abaixo uma tabela comparativa de cada uma dessas soluções: 
+
+
+\subsection{Especificações técnicas}
+O DEVTrack
+
+% - Microcontrolador,
+% - Bateria
+% - Tamanho
+% - rendimento
+% - alcance do sinal
+% - array de antenas
+% - features (ethernet)
+
+\section{Back-end}
+O sistema de localização deve se comunicar com o sistema do armazém de forma que os dados coletados possam ser usados com alguma finalidade. Dessa forma, é necessário uma forma de comunicação com algum sistema de gerenciamento de armazéns, que no caso é o sistema da samsung logistcs.
+
+Para fazer essa integração o hardware é capaz de se conectar a internet e enviar pacotes de mensagens a algum servidor. Isso é feito com base em MQTT e o programa de back-end é feito em Go, para adquirir esses dados do MQTT.
+
+
+
+
+\section{Funcionalidade}
+\section{Resultados}

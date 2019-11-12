@@ -69,47 +69,59 @@ A posição de um objeto é encontrada na intercecção de dois pares de linhas 
 Nesse caso, a propriedade de sinal que está diretamente envolvida é o AoA.
 
 \subsection{Trilateração}
+\label{sec:trilateracao}
+
 A trilateração é um algoritmo para estimar a localização de posições desconhecidas baseado nas distâncias relativas para pontos conhecidos \cite{art12}.
 Nesse método alguma propriedade do sinal fornece a distância relativa aos pontos conhecidos.
 
-O processo pode ser exemplificado na imagem \ref{fig:trilateration.png} em que as posições A, B e C são conhecidas e a D é desconhecida. 
-\begin{figure}[H]
-	\centering 
-	\includegraphics[scale = 1]{images/trilateration.png}
-	\caption{Trilateração \cite{art12}}
-	\label{fig:trilateration.png}
-\end{figure}
+O processo pode ser exemplificado nas imagens abaixo em que as posições A, B e C são conhecidas e a D é desconhecida. Há 4 casos principais que podem acontecer dependendo das distâncias relativas obtidas:
+
+\begin{enumerate}
+
+	\item Circulos se interceptam em um único ponto:
+	
+	\begin{figure}[H]
+		\centering 
+		\includegraphics[scale = 1]{images/trilateration.png}
+		\caption{Trilateração \cite{art12}}
+		\label{fig:trilateration.png}
+	\end{figure}
+	
+	
+	As coordenadas podem ser denominadas de \( (x_n, y_n) \) em que n pode ser A, B, C ou D dependendo do ponto em questão. Dessa forma tem-se as seguintes equações:
+	
+	\begin{equation*}
+	\begin{cases} \sqrt{(x - x_a)^2 + (y - y_a)^2} = d_a \\ \sqrt{(x - x_b)^2 + (y - y_b)^2} = d_b \\ \sqrt{(x - x_c)^2 + (y - y_c)^2} = d_c \end{cases}
+	\end{equation*}
+	
+	Resolvendo-se a equação, obtém-se:
+	
+	\begin{equation*}
+	\begin{bmatrix} 
+		x \\
+		y
+	\end{bmatrix} = 
+	\begin{bmatrix} 
+		2(x_a - x_c) & 2(y_a - y_c) \\
+		2(x_b - x_c) & 2(y_b - y_c)
+	\end{bmatrix}^{-1}
+	\begin{bmatrix} 
+		x_a^2 - x_c^2 + y_a^2 - y_c^2 + d_c^2 - d_a^2 \\
+		x_a^2 - x_c^2 + y_b^2 - y_c^2 + d_c^2 - d_b^2
+	\end{bmatrix}
+	\end{equation*}
 
 
-As coordenadas podem ser denominadas de \( (x_n, y_n) \) em que n pode ser A, B, C ou D dependendo do ponto em questão. Dessa forma tem-se as seguintes equações:
+\end{enumerate}	
 
-\begin{equation*}
-\begin{cases} \sqrt{(x - x_a)^2 + (y - y_a)^2} = d_a \\ \sqrt{(x - x_b)^2 + (y - y_b)^2} = d_b \\ \sqrt{(x - x_c)^2 + (y - y_c)^2} = d_c \end{cases}
-\end{equation*}
 
-Resolvendo-se a equação, obtém-se:
-
-\begin{equation*}
-\begin{bmatrix} 
-	x \\
-	y
-\end{bmatrix} = 
-\begin{bmatrix} 
-	2(x_a - x_c) & 2(y_a - y_c) \\
-	2(x_b - x_c) & 2(y_b - y_c)
-\end{bmatrix}^{-1}
-\begin{bmatrix} 
-	x_a^2 - x_c^2 + y_a^2 - y_c^2 + d_c^2 - d_a^2 \\
-	x_a^2 - x_c^2 + y_b^2 - y_c^2 + d_c^2 - d_b^2
-\end{bmatrix}
-\end{equation*}
 
 
 \subsection{Proximidade}
 É o algoritmo mais simples, entretanto só é utilizado para saber a distância de um objeto de interesse e não sua localização. Por tanto foge do escopo do presente trabalho.
 
 
-\subsection{\textit{Scene analysis/fingerprinting}}
+\subsection{Scene analysis/fingerprinting}
 
 Esses métodos se baseiam em coletar préviamente um conjunto de informações do sinal que são únicas a uma deteriminada localidade (\textit{fingerprint}) e posteriormente comparar com o \textit{fingerprint} do alvo. Com técnicas modernas de \textit{machine learning} é possivel encontrar padrões no \textit{fingerprint} de determinado sinal e comparar com posições armazenadas em um banco de dados que possuem \textit{fingerprints} similares \cite{art13}.
 
