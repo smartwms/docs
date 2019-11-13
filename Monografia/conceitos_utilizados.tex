@@ -47,9 +47,9 @@ O BLE funciona
 \subsection{RSSI}
 O RSSI, como uma propriedade bruta do sinal adquirida pelo stack de Bluetooth, fornece uma precisão de menos de 10m. Valor relativamente alto para a realização de localização indoor. Entretanto, é possível melhor essa precisão com algumas técnicas, em hardware, firmware e software.
 
-Na aquisição do sinal, foi implementado uma técnica para a obtenção da intensidade do sinal em cada um dos três canais de advertising (canal 37, canal 38 e canal 39) separadamente, em contraste com a abordagem clássica de obter o RSSI de todos os canais de advertising simultaneamente, o que permite uma maior precisão no uso do RSSI. A dificuldade desse método aparece porque o padrão BLE nativo, não provém uma API para recuperar informação dos canais de advertising na recepção dos pacotes transmitidos, assim pequenos ajustes no stack de bluetooth devem ser feitos [22].
+Na aquisição do sinal, foi implementado uma técnica para a obtenção da intensidade do sinal em cada um dos três canais de advertising (canal 37, canal 38 e canal 39) separadamente, em contraste com a abordagem clássica de obter o RSSI de todos os canais de advertising simultaneamente, o que permite uma maior precisão no uso do RSSI. A dificuldade desse método aparece porque o padrão BLE nativo, não provém uma API para recuperar informação dos canais de advertising na recepção dos pacotes transmitidos, assim pequenos ajustes no stack de bluetooth devem ser feitos \cite{art16}.
 
-Essa técnica melhora a precisão do RSSI em relação com a obtenção de todos os sinais simultaneamente pois assim é possível fazer uma análise personalizada para cada um dos canais, mitigando efeitos de interferências entre os canais, efeitos de \textit {fading} e eventuais erros na transmissão de dados [23].
+Essa técnica melhora a precisão do RSSI em relação com a obtenção de todos os sinais simultaneamente pois assim é possível fazer uma análise personalizada para cada um dos canais, mitigando efeitos de interferências entre os canais, efeitos de \textit {fading} e eventuais erros na transmissão de dados \cite{art17}.
 
 Uma vez coletada a informação dos canais separadamente, deve-se tratá-los adequadamente. Dependendo da situação, uma das formas de tratamento a seguir foi utilizadas :
 
@@ -81,27 +81,30 @@ Uma vez coletada a informação dos canais separadamente, deve-se tratá-los ade
 
 A partir do valor de RSSI que foi estimado com base no RSSI dos três canais, utilizou-se a triangulação para a determinação da posição de acordo com as equações de \ref{sec:trilateracao}.
 
-Nas imagens \ref{fig:rssi_channels_raw.png} e \ref{fig:rssi_channels_mrc.png} tiradas de [23], é possível perceber a diferença que a leitura separada dos canais pode fazer. Na imagem \ref{fig:rssi_channels_raw.png}, tem-se a leitura bruta dos valores dos canais para 500 medições, nessa caso há uma alta dispersão dos dados para um mesma distância, demonstrando a necessidade de algum tipo de tratamento dos dados.
+Nas imagens \ref{fig:rssi_channels_raw.png} e \ref{fig:rssi_channels_mrc.png} tiradas de \cite{art17}, é possível perceber a diferença que a leitura separada dos canais pode fazer. Na imagem \ref{fig:rssi_channels_raw.png}, tem-se a leitura bruta dos valores dos canais para 500 medições, nessa caso há uma alta dispersão dos dados para um mesma distância, demonstrando a necessidade de algum tipo de tratamento dos dados.
 Na imagem \ref{fig:rssi_channels_mrc.png}, utilizou-se o método do MRC descrito acima. Neste caso, há uma flutuação bem menor dos dados, o que é crítico para uma localização precisa.
 
 \begin{figure}[H]
     \centering
     \includegraphics[scale = 1]{images/rssi_channels_raw.png}
-    \caption{Gráfico de dispersão do RSSI medido para diferentes distâncias conhecidas para diferentes canais sem tratamento.  [23] }
+    \caption{Gráfico de dispersão do RSSI medido para diferentes distâncias conhecidas para diferentes canais sem tratamento.  \cite{art17}}
     \label{fig:rssi_channels_raw.png}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[scale = 1]{images/rssi_channels_mrc.png}
-    \caption{Gráfico de dispersão da média do RSSI calculado por meio do algoritmo MRC [23]}
+    \caption{Gráfico de dispersão da média do RSSI calculado por meio do algoritmo MRC \cite{art17}}
     \label{fig:rssi_channels_mrc.png}
 \end{figure}
 
 
 
 \subsection{Angle of Arrival}
-Já, quanto ao Angle of Arrival, apesar de não ser diretamente utilizado na implementação da solução, dado que chegou-se em uma precisão de localização aceitável apenas com o RSSI, um detalhamento de como seria possivel obtar tal parâmetro é dada aqui.
+O Angle of Arrival (Ângulo de Chegada), foi detalhado em \ref{sec:AoA}, e é uma propriedade capaz de incrementar bastante a precisão da localização indoor. Alguns estudos alegam que é possível obter precisão de centímetros usando essa propriedade do sinal com os algoritmos adequados \cite{art9}. O problema dessa abordagem entra na grande dificuldade da realização desses algoritmos que permitam uma estimativa precisa de ângulo. 
+
+Para o trabalho, a abordagem de AoA não foi implementada, dado que o RSSI separado por canais forneceu uma precisão aceitável para a localização e a abordagem profunda da implementação algoritmos para estimar bem o AoA acabaria fugindo do escopo do projeto, entretanto, dada sua tamanha importância na melhoria de precisão e nos futuros trabalhos de localização indoor, será dado uma explicação da teoria por trás da obtensão do angulo de chegada do sinal de bluetooth e como esse ângulo pode fornecer a posição do que se deseja localizar.
+
 
 Em primeiro lugar, para se obter a direção de um sinal é necessário um array de antenas, responsável por extrair a informação de angulo do sinal recebido. Há diversas técnicas para se obter . As mais conhecidas são: Outra que será descrita é:
 % \todo{extracao AoA}
