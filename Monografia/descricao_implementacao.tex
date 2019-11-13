@@ -4,7 +4,7 @@ Nota-se, que os conceitos utilizados descritos, não são dependentes da platafo
 
 
 \section{Arquitetura do sistema}
-\todo{Fazer diagrama do funcionamento}
+% \todo{Fazer diagrama do funcionamento}
 O sistema proposto será constituído de diversas partes que integram tanto software, quando hardware e firmware, como visto no diagrama abaixo.
 
 \section{Hardware}
@@ -16,14 +16,14 @@ O \textit{DEV SmartTag} consiste em um \textit{beacon} que possui um \textit{har
 Esse sinal é capturado pelo \textit{Dev SmartScanner} e transmitido para internet por meio de uma rede sem fio, de forma que o processamento dos algorimos de localizaçao aconteça na nuvem. O \textit{Dev SmartScanner} é composto principalmente por um microcontrolador equipado com bluetooth, para ser capaz de receber sinal do beacon e por um módulo Wi-Fi com capacidade de comunição com a internet. Ele não é alimentado por bateria, mas sim por uma fonte, já que  parte-se do pressuposto que de que ele fique em localização fixa e os tags que se mexem.
 
 \begin{figure}[H]
-	\centering 
+	\centering
 	\includegraphics[scale = 1]{images/dev_tag.png}
-	\caption{Aparência do \textit{DEV SmartTag} }
+	\caption{Aparência do \textit{DEV SmartTag}}
 	\label{fig:dev_smart_tag}
 \end{figure}
 
 \begin{figure}[H]
-	\centering 
+	\centering
 	\includegraphics[scale = 1]{images/dev_scanner.png}
 	\caption{Aparência do \textit{DEV SmartScanner}}
 	\label{fig:dev_smart_scanner}
@@ -33,19 +33,19 @@ Outras opções levantadas de \textit{hardware} que possibilitariam o uso espec�
 
 \begin{table}[H]
     \centering
-    \begin{tabular}{||c c c c c||} 
+    \begin{tabular}{||c c c c c||}
     \hline
-    Empresa & Modelo & Preço (USD) & Versão BLE & Link \\ [0.5ex] 
+    Empresa & Modelo & Preço (USD) & Versão BLE & Link \\ [0.5ex]
     \hline\hline
-    DEVTecnologia & DEV SmartTag & 35 & 4.1 & [24]\\ 
+    DEVTecnologia & DEV SmartTag & 35 & 4.1 & [24]\\
     \hline
-    Kontakt & Tough Beacon & 25  & 4.2 & [25]\\ 
+    Kontakt & Tough Beacon & 25  & 4.2 & [25]\\
     \hline
-    Beaconstac & Pocket & 23  & 4.0 & [26] \\ 
+    Beaconstac & Pocket & 23  & 4.0 & [26] \\
     \hline
-    Estimote & Proximity & 25 & 4.2 & [27]\\ 
+    Estimote & Proximity & 25 & 4.2 & [27]\\
     \hline
-    Quuppa & Q17 & -  & 5.1 & [28] \\ [0.5ex] 
+    Quuppa & Q17 & -  & 5.1 & [28] \\ [0.5ex]
     \hline
     \end{tabular}
     \caption{Comparação hardwares comerciais}

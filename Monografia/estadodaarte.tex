@@ -1,4 +1,4 @@
-\chapter{Aspectos Conceituais} 
+\chapter{Aspectos Conceituais}
 Esta parte se focará nas mais modernas tecnologias e técnicas para a realização da localização de ativos em um ambiente. Em primeiro lugar é importante fazer uma diferenciação entre a localização de ativos em ambientes outdoor e indoor.
 
 A localização indoor é o termo dado para a localização em ambientes com muitos obstáculos, paredes e teto. Em contraste, a localização outdoor, acontece em ambientes abertos com poucos obstáculo e paredes. Justamente, por introduzir obstáculos, a localização indoor apresenta mais desafios em relação à outdoor. O ambiente em que o trabalho será feito, é um porto a céu aberto, entretanto diversos obstáculos e paredes fazem parte desse ambiente, fazendo do problema mais similar com problemas de localização indoor. geralmente, soluções de localização indoor precisam tomar mais cuidado com precisão, economia de energia, alcance limitado e interferências. Aspectos os quais serão necessários no problema em questão. Tais técnicas, em ambientes sem o obstáculo a mais imposto por um teto, podem alcançar resultados ainda melhores. Dessa forma, a partir de agora, o texto se focará mais no estado-da-arte de tecnologias e técnicas desenvolvidas para ambientes indoor que serão as necessárias para esse trabalho.
@@ -7,7 +7,7 @@ A localização indoor é o termo dado para a localização em ambientes com mui
 Existe uma variedade de técnicas e algoritmos para obter informações a partir das propriedades de um sinal recebido por um receptor. Os algoritmos usados em sistemas de localização, traduzem as propriedades de um sinal recebido em distâncias e ângulos, os quais são posteriormente usados para o cálculo da localização real de um determinado objeto \cite{art5}. Abaixo uma imagem que resume as principais propriedades de sinal analisadas e os principais algoritmos utilizados para a localização:
 
 \begin{figure}[H]
-	\centering 
+	\centering
 	\includegraphics[scale = 0.4]{images/tecnicas_posicionamento_indoor.png}
 	\caption{Técnicas localização indoor}
 	\label{fig:tecnicas_posicionamento_indoor}
@@ -21,7 +21,7 @@ Angle of Arrival (AoA), ou em português, ângulo de chegada é o angulo em que 
 Essa abordagem para estimativa do ângulo de chegada do sinal, geralmente envolve um hardware mais sofisticado quando em comparação com outras propriedades do sinal. Entretanto, com a informação do ângulo de chegada, algoritmos conseguem estimar uma localização com muito mais precisão.\cite{art2}
 
 \begin{figure}[H]
-	\centering 
+	\centering
 	\includegraphics[scale = 0.6]{images/angle_of_arrival.png}
 	\caption{Angle of Arrival (AoA)}
 	\label{fig:angle_of_arrival}
@@ -42,7 +42,7 @@ Received Signal Strength Indication (RSSI) é a medida do nível de potência do
 Usando um modelo simples de propagação de perda de trajetória, a distância d entre transmissor e receptor pode ser estimada a partir de (5.1) como:
 
 \begin{equation} \label{eq:rssi}
-RSSI = -10n\log_{10} (d) + A 
+RSSI = -10n\log_{10} (d) + A
 \end{equation}
 
 Em que n é o expoente de perda do ambiente (que varia de 2 em um espaço aberto a 4 em ambientes indoor) e A é o valor do RSSI em uma distância de referência do receptor
@@ -53,7 +53,7 @@ Entretanto, em ambientes indoor a medição do RSSI e o posicionamento podem ter
 Pode se contruir uma tabela indicando os principais aspectos dos métodos citados:
 
 \begin{figure}[H]
-	\centering 
+	\centering
 	\includegraphics[scale = 1]{images/signal_table.png}
 	\caption{Comparação entre técnicas de localização \cite{art1}}
 	\label{fig:signal_table.png}
@@ -79,46 +79,46 @@ O processo pode ser exemplificado nas imagens abaixo em que as posições A, B e
 \begin{enumerate}
 
 	\item Circulos se interceptam em um único ponto:
-	
+
 	\begin{figure}[H]
-		\centering 
+		\centering
 		\includegraphics[scale = 0.8]{images/trilateration1.png}
 		\caption{Trilateração - Caso ideal}
 		\label{fig:trilateration.png}
 	\end{figure}
-	
-	
+
+
 	As coordenadas podem ser denominadas de \( (x_n, y_n) \) em que n pode ser A, B, C ou D dependendo do ponto em questão. Dessa forma tem-se as seguintes equações:
-	
+
 	\begin{equation*}
 	\begin{cases} \sqrt{(x - x_a)^2 + (y - y_a)^2} = d_a \\ \sqrt{(x - x_b)^2 + (y - y_b)^2} = d_b \\ \sqrt{(x - x_c)^2 + (y - y_c)^2} = d_c \end{cases}
 	\end{equation*}
-	
+
 	Resolvendo-se a equação, obtém-se:
-	
+
 	\begin{equation*}
-	\begin{bmatrix} 
+	\begin{bmatrix}
 		x \\
 		y
-	\end{bmatrix} = 
-	\begin{bmatrix} 
+	\end{bmatrix} =
+	\begin{bmatrix}
 		2(x_a - x_c) & 2(y_a - y_c) \\
 		2(x_b - x_c) & 2(y_b - y_c)
 	\end{bmatrix}^{-1}
-	\begin{bmatrix} 
+	\begin{bmatrix}
 		x_a^2 - x_c^2 + y_a^2 - y_c^2 + d_c^2 - d_a^2 \\
 		x_a^2 - x_c^2 + y_b^2 - y_c^2 + d_c^2 - d_b^2
 	\end{bmatrix}
 	\end{equation*}
 
 
-	\item Círculos se interceptam em uma região e não em um único ponto. Neste caso, pode-se achar o centroide do triângulo formado pelas três intercecções denominadas de \( P 1\), \( P 2\) e \( P 3\).  
-	
+	\item Círculos se interceptam em uma região e não em um único ponto. Neste caso, pode-se achar o centroide do triângulo formado pelas três intercecções denominadas de \( P 1\), \( P 2\) e \( P 3\).
+
 	\begin{figure}[H]
-		\centering 
+		\centering
 		\includegraphics[scale = 0.8]{images/trilateration2.png}
 		\caption{Trilateração \cite{art12}}
-		\label{fig:trilateration.png}
+		\label{fig:trilateration2.png}
 	\end{figure}
 
 	Em que as cordenadas x e y, são dadas por:
@@ -131,7 +131,7 @@ O processo pode ser exemplificado nas imagens abaixo em que as posições A, B e
 
 
 
-\end{enumerate}	
+\end{enumerate}
 
 
 
@@ -150,7 +150,7 @@ Algoritmos baseados nessa técnica são computacionalmente mais caros. Dessa for
 
 Uma tabela pode ser construída comparando os principais pontos positivos e negativos de cada um desses algoritmos.
 \begin{figure}[H]
-	\centering 
+	\centering
 	\includegraphics[scale = 1]{images/algorithms_table.png}
 	\caption{Comparação entre algoritmos de localização \cite{art1}}
 	\label{fig:algorithms_table.png}
@@ -198,7 +198,7 @@ Os maiores problemas são que na faixa audível potencias baixas tem que ser uti
 A seguinte tabela foi tirada de \cite{art2} com um resumo dos principais pontos de cada tecnologia. Algumas tecnologias não foram citadas em detalhes no presente texto:
 
 \begin{figure}[H]
-	\centering 
+	\centering
 	\includegraphics[scale = 0.7]{images/technologies_table.png}
 	\caption{Comparação entre tecnologias possíveis para localização. Tirado de \cite{art2}}
 	\label{fig:technologies_table}
