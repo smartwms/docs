@@ -69,6 +69,47 @@ Triangulação usa as propriedades geométricas de triângulos para estimar a di
 A posição de um objeto é encontrada na intercecção de dois pares de linhas de direção de ângulo.
 Nesse caso, a propriedade de sinal que está diretamente envolvida é o AoA.
 
+O processo pode ser exemplificado nas imagens abaixo em que A e B são pontos conhecidos e M é o ponto cujas coordenadas se deseja obter. 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale = 0.7]{images/triangulacao.png}
+	\caption{Triangulação, tirado de \cite{procd1}}
+	\label{fig:triangulacao.png}
+\end{figure}
+
+Para se obter as coordenadas x e y do ponto M, o seguinte equacionamento  é possível a partir dos pontos conhecidos, em que \( \theta_1 \) é o ângulo medido entre A e M e \( \theta_2 \) o ângulo entre B e M
+
+\begin{equation*}
+	\begin{bmatrix}
+		tan (\theta_1) \\
+		tan (\theta_2)
+	\end{bmatrix} =
+	\begin{bmatrix}
+		(y - y_1)/(x - x_1)   \\
+		(y - y_2)/(x - x_2) 
+	\end{bmatrix}
+\end{equation*}
+
+Resolvendo-se essa equação, tem-se os seguintes valores para x e y:
+
+\begin{equation*}
+	\begin{bmatrix}
+		x \\
+		y
+	\end{bmatrix} =
+	\begin{bmatrix}
+		\frac{y_2 - y_1 + x_1 tan (\theta_1) - x_2 tan (\theta_2)}{tan (\theta_1) - tan (\theta_2)}   \\
+		\frac{y_2/tan (\theta_2) - y_1/tan (\theta_1) + x_1 - x_2}{1/tan (\theta_2) - 1/tan (\theta_1)}
+	\end{bmatrix}
+\end{equation*}
+
+Muitas vezes, tem-se a disponibilidade de informação do ângulo que M faz com mais de dois pontos conhecidos.  Nesses casos é possível ter uma maior precisão na localização do que com o uso de somente dois pontos.
+
+Com um número N de posições conhecidas que localizaram M, tem-se um número \( C_{N}^2  \) de estimativas de posição. A partir dessas \( C_{N}^2  \) estimativas, há algoritmos para tratar essas estimativas de forma a chegar em maior precisão. A referência \cite{procd1} trata de alguns desses algoritmos, tais como o de média simples, método dos mínimos quadrados ponderados e o método baseado em cluster. 
+
+Resumidamente o estudo chega a conclusão de que enquanto o método das médias é o mais simples e direto, sua precição não é muito alta. O método dos minímos quadrados ponderados, não obteve precisão muito superior ao da média simples e possui uma complexidade maior. Já o baseado em cluster é o que apresenta maior precisão , tendo uma complexidade também maior.
+
 \subsection{Trilateração}
 \label{sec:trilateracao}
 
