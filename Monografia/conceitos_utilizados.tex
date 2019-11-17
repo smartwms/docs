@@ -31,18 +31,92 @@ As principais características da escolha podem ser encontradas abaixo:
 
 \end{itemize}
 
+Antes de entrar no nas especificidade das propriedades do sinal utilizadas, cabe aqui um detalhamento do protocolo de Bluetooth Low Energy (BLE).
+
+\subsection{Protocolo Bluetooth Low Energy}
+
+O Bluetooth Low Energy (BLE) foi introduzido na especificação 4.0 do padrão IEEE 802.15.1 pelo Bluetooth Special Interest Group (Bluetooth SIG). É classificado como uma rede de acesso pessoal sem fio (WPAN) de baixo consumo, latência e custo \cite{Bluetooth_SIG_Site}.
+A arquitetura do stack do protocolo Bluetooth pode ser dividido em várias camadas conforme a imagem \ref{fig:ble-protocol-stack.png}. Cada camada tem uma função específica. Para o trabalho as partes mais relevantes do funcionamento do protocólo são as partes da Camada Física (PHY), Camada de Enlace (LL) e do Generic Access Profile (GAP).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/ble-protocol-stack.png}
+    \caption{Arquitetura do stack do protocolo Bluetooth. Tirado de \cite{Microchip_Site} }
+    \label{fig:ble-protocol-stack.png}
+\end{figure}
+
+
+
+\begin{itemize}
+
+    \item \textbf{Generic Access Profile (GAP)}
+    
+    As formas de operação do BLE são definidas pelo General Access Profile (GAP) e este perfil determina que um dispositivo possui 4 formas de operação:
+    Broadcaster, Observer, Slave e Central.
+
+    Como Broadcaster, o dispositivo opera somente como transmissor de dados, enviando pacotes de dados periodicamente, a cada ação denominada Advertising, que podem conter informações sobre o dispositivo e indicam a presença de um dispositivo num dado local. Quando um dispositivo opera apenas como broadcaster, ele não está aberto a receber conexões.
+
+    Como Observer, o dispositivo opera somente como um receptor de dados, recebendo apenas os pacotes de advertising enviados por outros dispositivos BLE.
+    
+    Como Peripheral, o dispositivo suporta estabelecer uma conexão como escravo (slave). Para outro dispositivo detectar sua presença e iniciar uma conexão, é necessário que o peripheral opere antes como um broadcaster, indicando sua presença.
+
+    Como Central, o dispositivo suporta múltiplas conexões como mestre (master) e é sempre o responsável por iniciar as conexões com um peripheral. Para detectar um peripheral, é necessário que a central opere como um observer para detectar a presença de outros dispositivos.
+
+    Um dispositivo é capaz de suportar múltiplas formas de operação ao mesmo tempo \cite{Bluetooth_SIG_Site}.
+
+    \item \textbf{Camada Física (Physical Layer - PHY)}
+    
+    A camada física contém o circuito analógico responsável pela transmissão de simbolos digitais pelo ar. É a camada mais baixa do stack e provém seus serviços para a camada de enlace (link layer). 
+
+    Nessa camada, o BLE opera na banda 2.4GHz ISM (Industrial, Scientific, and Medical),contando com 40 canais de radio-frequências espaçados com 2Mhz entre si. Existem dois tipos de transmissão: a transmissão de dados, que é feita em 37 dos canais disponíveis com a capacidade de transmissão de 1Mbits, realizada pelos dispositivos operando como central ou com peripeheral; e o advertising, que é feito nos outros 3 canais restantes com as frequências de 2402MHz, 2426MHz e 2480MHz, que é realizado nos dispositivos operando como broadcaster. Esses são os canais 37, 38 e 39.
+
+    Esses canais foram escolhidos propositalmente para diminuir a interferência com outros sinais da banda ISM, tais como os de Wi-fi (IEEE 802.11).
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1.0\textwidth]{images/ble-phy-channel-overlap.png}
+        \caption{Canais do Bluetooth e de Wi-Fi. nota-se que os canais de advertising do BLE ficam em pontos que minimizam a interferência com os de WiFi. Tirado de \cite{Microchip_Site} }
+        \label{fig:ble-phy-channel-overlap.png}
+    \end{figure}
+    
+    
+    Enquanto o modo de advertising utiliza os canais com menos interferencia da banda ISM, no modo conectado, o algoritmo FHSS (\textit{Frequency-hopping spread spectrum})é utilizado para diminuir interferências.
+
+    É um algoritmo simples e pseudo-aleatório que dita qual vai ser o próximo canal que o BLE fará a transmissão de dados. Esse canal é alternado entre os 37 possíveis canais o que faz um distribuição de dados sobre eles mais igualitaria diminuindo interferências. Tanto o dispositivo oprando como peripheral quanto o central possuem acesso a esse algoritmo, sabendo qual vai ser o próximo canal em que se dará a comunicação.
+
+    O próximo canal é dado pela seguinte formula:
+
+    \begin{equation}
+        f_{n+1} = (f_{n} + hop) mod 37
+    \end{equation}
+
+    Em que \( f_{n} \) é o canal atual da comunicação, \( f_{n + 1} \) é o próximo e \( hop \) é um valor que pode mudar entre 5 e 16 e é definido no momento em que uma conexão é estabelecida.
+
+    O diagrama abaixo mostra que esse algoritmo provém um método robusto para manter uma conexão mesmo na presença de de interferências ou outros dispositivos de rádios no alcance do Bluetooth. No diagrama há 3 conexões de Bluetooth diferentes e o do 3 link está destacado para claridade.
+    
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1.0\textwidth]{images/frequency-hopping.png}
+        \caption{\textit{Frequency Hopping Spread Spectrum} para 3 conexões. Tirado de \cite{Microchip_Site}}
+        \label{fig:frequency-hopping.png}
+    \end{figure}
+
+    \item \textbf{Camada de Enlace (Link Layer - LL)}
+    
+    A Link Layer, é a responsável direta pela comunicação com a camada física. Ela é a responsável pelo advertising, o scanning, e criar e manter as conexões. Ele define quem inicia uma conexão, quando um dispositivo se conecta a outra ou quando fica em modo de stand-by. Os pacotes padrão de Bluetooth são especificados nessa camada.
+
+    Os pacotes, chamados de PDU (Packet Data Unit) são constituidos de 2 bytes de cabeçalho seguidos de 255 bytes de payload no modo conectado e 37 bytes no modo de advertising. Para economizar energia o hardware entra em modo de sleep entre as transmissões. Além disso, um intervalo para transmissão de pacotes de advertising pode ser escolhido entre 20ms e 10.24 segundos. Quanto maior o intervalo, maior a economia de energia, porém menos possibilidade de uso em tempo real. 
+
+  
+
+\end{itemize}
+
 \section{Propriedades do sinal}
 Os principais algoritmos mencionados anteriormente exigem para sua implementação uma distância conhecida e um ângulo conhecido para um ponto de referência. No presente trabalho, será utilizado o RSSI como método principal para estimar a distância. %e o AoA para estimar o ângulo.
 
 Quando um chip de Bluetooth recebe o sinal ele é capaz de retornar o valor da intensidade desse sinal, então a obtenção do RSSI é direta e não exige nenhum hardware adicional. Apesar de não ser o método mais preciso para estimar distância, seu custo benefício é alto.
 
 Já para estimar o ângulo, o angle of arrival de um sinal poderia ser utilizado. Tal propriedade em conjunto com a de intensidade do sinal permite que algoritmos estimem uma localização com uma precisão maior quando em comparação a algoritmos que utilizam apenas a intensidade do sinal. Assim, apesar de necessitar de um hardware mais complexo, há um ganho significativo.
-
-Porém, antes de entrar no nas especificidade das propriedades do sinal utilizadas, cabe um detalhamento do protocólo de Bluetooth Low Energy (BLE).
-\subsection{Protocólo BLE}
-
-O BLE funciona
-% \todo{BLE protocolo}
 
 \subsection{RSSI}
 O RSSI, como uma propriedade bruta do sinal adquirida pelo stack de Bluetooth, fornece uma precisão de menos de 10m. Valor relativamente alto para a realização de localização indoor. Entretanto, é possível melhor essa precisão com algumas técnicas, em hardware, firmware e software.
@@ -136,7 +210,7 @@ As equações que relacionam esses sinais são:
     S_6 & = 0.5(S_1 - S_2)  & B_6 = \left | S_6 \right | ^2
 \end{align*}
 
-A partir disso, é possível encontrar diversas propriedades úteis dos sinais incidente, tais como a a diferença de fase \( \Delta\phi\), a distância do sinal \( \Delta\delta\) e a propriedade que mais interessa para o presente trabalho, o ângulo de chegada \(\theta\) a partir das seguintes equações:
+A partir disso, é possível encontrar diversas propriedades úteis dos sinais incidente, tais como a a diferença de fase \( \Delta\phi\), a distância do sinal \( \Delta\delta\) e a propriedade do ângulo de chegada \(\theta\) a partir das seguintes equações:
 
 \begin{equation}
     Z = (B_5 - B_6) + j(B_3 - B_4)
