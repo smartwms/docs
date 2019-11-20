@@ -34,6 +34,7 @@ As principais características da escolha podem ser encontradas abaixo:
 Antes de entrar no nas especificidade das propriedades do sinal utilizadas, cabe aqui um detalhamento do protocolo de Bluetooth Low Energy (BLE).
 
 \subsection{Protocolo Bluetooth Low Energy}
+\label{subsec:protocolo_ble}
 
 O Bluetooth Low Energy (BLE) foi introduzido na especificação 4.0 do padrão IEEE 802.15.1 pelo Bluetooth Special Interest Group (Bluetooth SIG). É classificado como uma rede de acesso pessoal sem fio (WPAN) de baixo consumo, latência e custo \cite{Bluetooth_SIG_Site}.
 A arquitetura do stack do protocolo Bluetooth pode ser dividido em várias camadas conforme a imagem \ref{fig:ble-protocol-stack.png}. Cada camada tem uma função específica. Para o trabalho as partes mais relevantes do funcionamento do protocólo são as partes da Camada Física (PHY), Camada de Enlace (LL) e do Generic Access Profile (GAP).
@@ -103,11 +104,21 @@ A arquitetura do stack do protocolo Bluetooth pode ser dividido em várias camad
 
     \item \textbf{Camada de Enlace (Link Layer - LL)}
     
-    A Link Layer, é a responsável direta pela comunicação com a camada física. Ela é a responsável pelo advertising, o scanning, e criar e manter as conexões. Ele define quem inicia uma conexão, quando um dispositivo se conecta a outra ou quando fica em modo de stand-by. Os pacotes padrão de Bluetooth são especificados nessa camada.
+    A Link Layer, é a responsável direta pela comunicação com a camada física. Ela é a responsável pelo advertising, o scanning, e criar e manter as conexões. Ele define quem inicia uma conexão, quando um dispositivo se conecta a outra ou quando fica em modo de stand-by. Os pacotes padrão de Bluetooth também são especificados nessa camada.
 
-    Os pacotes, chamados de PDU (Packet Data Unit) são constituidos de 2 bytes de cabeçalho seguidos de 255 bytes de payload no modo conectado e 37 bytes no modo de advertising. Para economizar energia o hardware entra em modo de sleep entre as transmissões. Além disso, um intervalo para transmissão de pacotes de advertising pode ser escolhido entre 20ms e 10.24 segundos. Quanto maior o intervalo, maior a economia de energia, porém menos possibilidade de uso em tempo real. 
+    Os pacotes de Bluetooth são constituidos por 1 byte de preâmbulo, 4 bytes de endereço, 2-255 bytes chamados de PDU (Packet Data Unit) e 3 de CRC (Cyclic redundancy check), como visto na imagem abaixo:
 
-  
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=1.0\textwidth]{images/packet-format-top-level.png}
+        \caption{ Pacote de Bluetooth \cite{Microchip_Site}}
+        \label{fig:packet-format.png}
+    \end{figure}
+
+
+    O PDU é a parte da mensagem propriamente dita, constituida de 2 bytes de cabeçalho seguidos de até 255 bytes de payload no modo conectado e até 37 bytes no modo de advertising. 
+    
+    Para economizar energia o hardware entra em modo de sleep entre as transmissões. Além disso, um intervalo para transmissão de pacotes de advertising pode ser escolhido entre 20ms e 10.24 segundos. Quanto maior o intervalo, maior a economia de energia, porém menos possibilidade de uso em tempo real.  
 
 \end{itemize}
 
@@ -175,6 +186,9 @@ Na imagem \ref{fig:rssi_channels_mrc.png}, utilizou-se o método do MRC descrito
 
 
 \subsection{Angle of Arrival}
+
+\subsubsection{Introdução}
+\label{subsec:AoA-Intro}
 O Angle of Arrival (Ângulo de Chegada), foi detalhado em \ref{sec:AoA}, e é uma propriedade capaz de incrementar bastante a precisão da localização indoor. Alguns estudos alegam que é possível obter precisão de centímetros usando essa propriedade do sinal com os algoritmos adequados \cite{art9}. O problema dessa abordagem entra na grande dificuldade da realização desses algoritmos que permitam uma estimativa precisa de ângulo. 
 
 Para o trabalho, a abordagem de AoA não foi implementada, dado que o RSSI separado por canais forneceu uma precisão aceitável para a localização e a abordagem profunda da implementação algoritmos para estimar bem o AoA acabaria fugindo do escopo do projeto, entretanto, dada sua tamanha importância na melhoria de precisão e nos futuros trabalhos de localização indoor, será dado uma explicação da teoria por trás da obtensão do angulo de chegada do sinal de bluetooth e como esse ângulo pode fornecer a posição do que se deseja localizar.
@@ -189,8 +203,11 @@ Para longas distancias a onda de rádio transmitida pode ser vista como uma onda
 
 Na literatura essas amostras de diferentes fases do sinal pelo array de antenas são chamados de "IQ-Samples" (In-phase and Quadratura-phase samples). Para a maioria dos algoritmos de estimativa de ângulo por meio dos IQ-Samples é necessário uma defasagem máxima de 90 graus entre as amostras. Considerando-se a velocidade da luz como \( 300.000 km/s \) e a frequência do sinal do bluetooth aproximadamente \( 2.4 GHz \) para uma defasagem de 90 graus é necessario um espaçamento L máximo de \( L = (3 * 10^8)/(2.4 * 10^9) = 0.125m \). Já o espaçamento mínimo é limitado pela tecnologia e não há um limite teórico.
 
+\subsubsection{Dificuldades}
+
 Os desafios técnicos para a obtenção do ângulo por meio do array de antena se deve ao fato de que os ambientes onde se realizará a amostragem não são ideais. O que faz com que haja sinais "multi-path" que são basicamente uma versão atrasada do mesmo sinal, por reflexões on ambiente, por exemplo. Ou ainda ruídos no ambiente que não podem ser isolados. Por último tem-se o problema que no geral os sistemas embarcados que fazem a coleta dos IQ-Samples, não tem memória limitada, o que dificulta a realização de algoritmos completos no proprio dispositivo.
 
+\subsubsection{Algoritmos}
 Para a superação desses desafios, algoritmos rubustos tiveram que ser desenvolvidos para estimar o ângulo do sinal com base nas amostras. Aqui serão apresentados dois deles em nível alto sem provas do motivo pelos quais funcionam: o Classical Beamformer e o MUSIC:
 
 \begin{itemize}
@@ -235,13 +252,15 @@ Para a superação desses desafios, algoritmos rubustos tiveram que ser desenvol
         R_{xx} = VAV^{-1}
     \end{equation}
 
+    Em que \( A \) é a matriz diagonal contendo os os autovalores e \( V \) contendo os respectivos autovetores de \( R_{xx} \)
+
     A partir disso é possível construir um pseudo-espectro P para o sinal dado por:
 
     \begin{equation} \label{eq:eq_music}
         P(\theta) = \frac{1}{a^{H}(\theta)VV^{H}a(\theta)}
     \end{equation}
 
-    E realizando-se um procedimento similar ao algoritmo de cima, encontrando-se o \( \theta \) que máximiza a equacão \ref{eq:eq_music}, encontra-se o ângulo de chegada mais provável. Esse é um algoritmo bem robusto que fornece boas precições. Entretanto seu peso computacional é alto.
+    E realizando-se um procedimento similar ao algoritmo de cima, encontrando-se o \( \theta \) que maximiza a equacão \ref{eq:eq_music}, encontra-se o ângulo de chegada mais provável. Esse é um algoritmo bem robusto que fornece boas precições. Entretanto seu peso computacional é alto.
 
 
 \end{itemize}
@@ -249,13 +268,8 @@ Para a superação desses desafios, algoritmos rubustos tiveram que ser desenvol
 As referências \cite{art19}, \cite{techreport1} e \cite{art20} dão mais detalhes dos algoritmos mencionados e realizam experimentos demonstrando seus usos.
 
 
-%Vale ressaltar o ble 5.1
-% \todo{5.1}
-
-Nas especificações do Bluetooth anteriores à 5.1 lançada em janeiro de 2019, a obtenção do AoA exigia um hardware extra.
-Entretanto, dados os recentes avanços na tecnologia agora é possivel estimar o ângulo de chegada de um sinal se o chip Bluetooth utilizado possuir suporte para Bluetooth 5.1 ou superior.
-
-Uma alternativa para estimar o AoA para especificações anteriores à 5.1 é a utilização de um interferômetro de 6-portas, que é um dispositivo que é baseado nas superposições deslocadas de fase das ondas incidentes e refletidas em uma porta. Diferentes defasagens de fase resultam em diferentes potências nas portas de saída da arquitetura de um 6-portas \cite{art14}.
+\subsubsection{Interferômetro de 6-portas}
+Além dos algoritmos mencionados, ainda uma alternativa para estimar o AoA é a utilização de um interferômetro de 6-portas, que é um dispositivo que é baseado nas superposições deslocadas de fase das ondas incidentes e refletidas em uma porta. Diferentes defasagens de fase resultam em diferentes potências nas portas de saída da arquitetura de um 6-portas \cite{art14}.
 
 Abaixo um desenho esquemático da arquitetura de um 6-portas:
 
@@ -298,6 +312,26 @@ A partir disso, é possível encontrar diversas propriedades úteis dos sinais i
 Em que Z é um número complexo que relaciona as tensões de saída, \(\lambda\) é o comprimento de onda do sinal e \(a\) a distância entre antenas receptoras.
 
 A referência \cite{art15} apresenta um maior detalhamento da arquitetura. Para o contexto de localização indoor, as equações forneceriam o ângulo \(\theta\) desejado.
+
+\subsubsection{Bluetooth 5.1}
+
+No contexto de AoA a especificação de bluetooth 5.1 foi disponibilizada em Janeiro de 2019. Uma de suas premissas era facilitar a infraestrutura para a obtenção do AoA e AoD. Por um lado a obtenção do ângulo continuou não sendo trivial, porém uma certa facilidade foi incluída.
+
+A principal mudança ocorreu na Camada de Enlace (Link Layer \ref{subsec:protocolo_ble}) e no pacote de Bluetooth. Um novo campo chamado de Constant Tone Extension (CTE) foi introduzido ao pacote. A finalidade desse campo é fornecer um sinal de frequencia e e comprimento de onda constantes na qual é possivel realizar o processo de IQ-Sample (\ref{subsec:AoA-Intro}) com maior facilidade e confiabilidade. Este novo campo contém uma sequência de 1s e não está incluído no cálculo da CRC.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1.0\textwidth]{images/cte-ble.png}
+	\caption{Novo campo CTE. Tirado de \cite{Bluetooth_SIG_Site} }
+	\label{fig:cte-ble}
+\end{figure}
+
+Enquanto o bluetooth 5.1 de fato pode melhorar a amostragem de IQ-Samples, os algoritmos para se chegar no AoA não foram definidos no protocólo, o que ainda resulta em certas dificuldades na sua obtenção.
+
+Até a data do presente trabalho, poucos foram os CIs lançados comercialmente que possuem suporte para BLE 5.1 (nRF52833 e nRF52811 da \textit{Nordic Semiconductors} e BGM13S da \textit{Silicon Labs}), não há celulares com suporte ainda, e não foi encontrada uma solução ou um SDK que disponibilizasse o tratamento dos dados brutos de Bluetooth 5.1. No momento só existem códigos proprietários capazes de utilizar com eficiencia as novas funcionalidade.
+
+A referência \cite{art21} de setembro de 2019 explora o Bluetooth 5.1 e é uma das primeiras a fazer um estudo detalhado sobre.
+
 
 \section{Algoritmos}
 
