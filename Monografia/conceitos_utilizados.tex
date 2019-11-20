@@ -180,9 +180,76 @@ O Angle of Arrival (Ângulo de Chegada), foi detalhado em \ref{sec:AoA}, e é um
 Para o trabalho, a abordagem de AoA não foi implementada, dado que o RSSI separado por canais forneceu uma precisão aceitável para a localização e a abordagem profunda da implementação algoritmos para estimar bem o AoA acabaria fugindo do escopo do projeto, entretanto, dada sua tamanha importância na melhoria de precisão e nos futuros trabalhos de localização indoor, será dado uma explicação da teoria por trás da obtensão do angulo de chegada do sinal de bluetooth e como esse ângulo pode fornecer a posição do que se deseja localizar.
 
 
-Em primeiro lugar, para se obter a direção de um sinal é necessário um array de antenas, responsável por extrair a informação de angulo do sinal recebido. Há diversas técnicas para se obter . As mais conhecidas são: Outra que será descrita é:
-% \todo{extracao AoA}
-Vale ressaltar o ble 5.1
+Em primeiro lugar, para se obter a direção de um sinal é necessário um array de antenas, responsável por extrair a informação de ângulo do sinal recebido. 
+
+Esse array de antenas pode estar ou no dispositivo a ser localizado ou no localizador. No caso de o dispositivo a ser localizado possuir um array de antenas para estimar o ângulo de chegada o termo utilizado é AoA (Angle of arrival), já no outro caso o processo é chamado de AoD (Angle of Departure). Os dois casos utilizam os mesmos princípios e podem ser mais ou menos convenientes em cassos específicos. \cite{techreport1}
+Aqui será referido o AoA, porém a teoria é a mesma para o AoD.
+
+Para longas distancias a onda de rádio transmitida pode ser vista como uma onda planar ao invés de esférica. Se essa onda se propagar na direção normal do array de antenas do receptor cada uma das antenas do array vai receber a mesma fase da onda. Entretanto, quando se quer obter o angulo de um sinal, evita-se deixar nessa posição, de talforma que cada antena do array de antenas recebe a onda com uma fase diferente. Essa informação de diferença de fase faz com que seja possível estimar o nâgulo de chegada de um sinal.
+
+Na literatura essas amostras de diferentes fases do sinal pelo array de antenas são chamados de "IQ-Samples" (In-phase and Quadratura-phase samples). Para a maioria dos algoritmos de estimativa de ângulo por meio dos IQ-Samples é necessário uma defasagem máxima de 90 graus entre as amostras. Considerando-se a velocidade da luz como \( 300.000 km/s \) e a frequência do sinal do bluetooth aproximadamente \( 2.4 GHz \) para uma defasagem de 90 graus é necessario um espaçamento L máximo de \( L = (3 * 10^8)/(2.4 * 10^9) = 0.125m \). Já o espaçamento mínimo é limitado pela tecnologia e não há um limite teórico.
+
+Os desafios técnicos para a obtenção do ângulo por meio do array de antena se deve ao fato de que os ambientes onde se realizará a amostragem não são ideais. O que faz com que haja sinais "multi-path" que são basicamente uma versão atrasada do mesmo sinal, por reflexões on ambiente, por exemplo. Ou ainda ruídos no ambiente que não podem ser isolados. Por último tem-se o problema que no geral os sistemas embarcados que fazem a coleta dos IQ-Samples, não tem memória limitada, o que dificulta a realização de algoritmos completos no proprio dispositivo.
+
+Para a superação desses desafios, algoritmos rubustos tiveram que ser desenvolvidos para estimar o ângulo do sinal com base nas amostras. Aqui serão apresentados dois deles em nível alto sem provas do motivo pelos quais funcionam: o Classical Beamformer e o MUSIC:
+
+\begin{itemize}
+
+    \item \textbf{Classical Beamformer}
+    
+    Considerando-se um vetor de IQ-Samples para cada antena dado por \( x \), pode-se modelar esse vetor pela seuinte equação:
+
+    \begin{equation} \label{eq:eq_iq}
+        x(t) = a(\theta)s(t) + n(t)
+    \end{equation}
+
+    Em que  \( n(t) \) é um modelo de ruídos, \( s(t) \) é o sinal que foi transmitido no ar e \( a \) é o vetor de posição do array de antenas, dado por:
+
+    \begin{equation} \label{eq:eq_steering_vector}
+        a(\theta) = [1, e^{j2\pi d sin(\theta)/\lambda}, ... , e^{j2\pi (m-1) d sin(\theta)/\lambda}]
+    \end{equation}
+
+    Em que \( d \) é a distância entre as antenas, \( \lambda \) o comprimento de onda do sinal transmitido, \( m \) o número de elementos no array de antenas e \( \theta \) o ângulo de chegada
+
+    O vetor de posição \ref{eq:eq_steering_vector} descreve como os sinais em cada antena são deslocados de fase devido às diferentes distâncias para o transmissor. Usando \ref{eq:eq_iq}, podemos calcular uma aproximação da chamada matriz de covariância da amostra, \( R_{xx} \), essa matrix auxilia depois para encontrar o ângulo:
+
+    \begin{equation} \label{eq:eq_Beamformer}
+        R_{xx} = \frac{1}{N}\sum_{t=1}^{N}x(t)x^{H}(t)
+    \end{equation}
+
+    Em que H é a transposição hermitiana de uma matriz.
+
+    Finalmente, a parte central do algoritmo, se dá ao se achar \( \theta \)  que máximiza a potencia \( P(\theta) \) na seguinte equação:
+
+    \begin{equation} \label{eq:eq_rxx}
+        P(\theta) = \frac{a^{H}(\theta)R_{xx}a(\theta)}{a^{H}(\theta)a(\theta)}
+    \end{equation}
+
+    Esse \( \theta \) encontrado é a melhor estimativa para o ângulo de chegada nesse algoritmo. Porém ainda assim não é muito preciso, e robusto, apesar de uma simplicidade maior em relação ao próximo.
+
+    \item \textbf{MUSIC (Multiple Signal Classification)}
+    
+    A ideia desse algoritmo é realizar uma decomposição dos autovalores e autovetores da matriz \( R_{xx} \):
+
+    \begin{equation} \label{eq:eq_autovalores_rxx}
+        R_{xx} = VAV^{-1}
+    \end{equation}
+
+    A partir disso é possível construir um pseudo-espectro P para o sinal dado por:
+
+    \begin{equation} \label{eq:eq_music}
+        P(\theta) = \frac{1}{a^{H}(\theta)VV^{H}a(\theta)}
+    \end{equation}
+
+    E realizando-se um procedimento similar ao algoritmo de cima, encontrando-se o \( \theta \) que máximiza a equacão \ref{eq:eq_music}, encontra-se o ângulo de chegada mais provável. Esse é um algoritmo bem robusto que fornece boas precições. Entretanto seu peso computacional é alto.
+
+
+\end{itemize}
+
+As referências \cite{art19}, \cite{techreport1} e \cite{art20} dão mais detalhes dos algoritmos mencionados e realizam experimentos demonstrando seus usos.
+
+
+%Vale ressaltar o ble 5.1
 % \todo{5.1}
 
 Nas especificações do Bluetooth anteriores à 5.1 lançada em janeiro de 2019, a obtenção do AoA exigia um hardware extra.
